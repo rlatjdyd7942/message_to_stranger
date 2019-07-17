@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "61299223552",
+    "firebase_url": "https://apps-messagetostranger.firebaseio.com",
+    "project_id": "apps-messagetostranger",
+    "storage_bucket": "apps-messagetostranger.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:61299223552:android:258a361e69b1fea9",
+        "android_client_info": {
+          "package_name": "com.syk.mts.message_to_stranger"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "61299223552-u7v3u8k7rf8hagge41km5ak1dmrqcgak.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.syk.mts.message_to_stranger",
+            "certificate_hash": "6df6781031037b9c837d0bcd2cfb231f6ea67676"
+          }
+        },
+        {
+          "client_id": "61299223552-mkofa7an4v986d6cskakoh91jp2chvn3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyABNuWhGLFAdml_NjgtFsfwB0fm_vDTqMc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "61299223552-mkofa7an4v986d6cskakoh91jp2chvn3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
