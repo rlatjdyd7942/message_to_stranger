@@ -50,26 +50,34 @@ class SignManager {
 
   void _updateInfo(user) {
     final Firestore db = Firestore.instance;
-    DocumentReference ref = db.collection('users').document(user.uid);
-    var now = DateTime.now();
-    ref.get().then((snapshot) {
-      if (snapshot.exists) {
-        ref.setData({
-          'uid': user.uid,
-          'email': user.email,
-          'displayName': user.displayName,
-          'lastSeen': now,
-        }, merge: true);
-      } else {
-        ref.setData({
-          'uid': user.uid,
-          'email': user.email,
-          'displayName': user.displayName,
-          'random':  new Random().nextInt(100000000),
-          'lastSeen': now,
-          'signedUpAt': now,
-        });
-      }
+    db.runTransaction((Transaction tx) async {
+      db.collection('users').orderBy('id', descending: true).limit(1).getDocuments().then((snapshot) {
+        int id = 1;
+        if (snapshot.documents.length != 0) {
+          id = snapshot.documents[0]['id'];
+        }
+        var now = DateTime.now();
+        tx.get(db.collection('users').document(user.uid)).then((snapshot) {
+            if (snapshot.exists) {
+              snapshot.reference.setData({
+                'displayName': user.displayName,
+                'lastSeen': now,
+              }, merge: true);
+            } else {
+              snapshot.reference.setData({
+                'id': id,
+                'uid': user.uid,
+                'email': user.email,
+                'displayName': user.displayName,
+                'random':  new Random().nextInt(100000000),
+                'lastSeen': now,
+                'signedUpAt': now,
+              });
+            }
+          }
+        );
+      });
     });
+
   }
 }
