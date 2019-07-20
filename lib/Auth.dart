@@ -1,8 +1,27 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:rxdart/rxdart.dart';
 
+class Auth {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final GoogleSignIn _googleSignIn = GoogleSignIn();
+
+  Future<FirebaseUser> googleSignIn() async {
+    GoogleSignInAccount googleUser = await _googleSignIn.signIn();
+    GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+    final AuthCredential credential = GoogleAuthProvider.getCredential(
+      accessToken: googleAuth.accessToken,
+      idToken: googleAuth.idToken,
+    );
+    return await _auth.signInWithCredential(credential);
+  }
+
+  void signOut() {
+    _auth.signOut();
+  }
+
+  Future<FirebaseUser> get currentUser async => await _auth.currentUser();
+}
+/*
 class AuthService {
   final GoogleSignIn _googleSignIn = GoogleSignIn();
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -33,22 +52,10 @@ class AuthService {
     );
     FirebaseUser user = await _auth.signInWithCredential(credential);
 
-    updateUserData(user);
     print("signed in " + user.displayName);
 
     loading.add(false);
     return user;
-  }
-
-  void updateUserData(FirebaseUser user) async {
-    DocumentReference ref = _db.collection('users').document(user.uid);
-
-    return ref.setData({
-      'uid': user.uid,
-      'email': user.email,
-      'displayName': user.displayName,
-      'lastSeen': DateTime.now(),
-    }, merge: true);
   }
 
   void signOut() {
@@ -57,3 +64,4 @@ class AuthService {
 }
 
 final AuthService authService = AuthService();
+*/

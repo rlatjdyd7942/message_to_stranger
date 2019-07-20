@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_signin_button/flutter_signin_button.dart';
 import '../Auth.dart';
-
+import '../SignManager.dart';
+import 'MessageListPage.dart';
 
 class AuthPage extends StatefulWidget {
 
@@ -10,21 +12,27 @@ class AuthPage extends StatefulWidget {
 }
 
 class AuthPageState extends State<AuthPage> {
+  Auth auth = Auth();
+  SignManager signManager;
+
   @override
   Widget build(BuildContext context) {
+    signManager = SignManager(auth);
+    signManager.init();
     return Scaffold(
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            MaterialButton(
-              onPressed: () => authService.googleSignIn(),
-              color: Colors.blue,
-              textColor: Colors.white,
-              child: Text('Login with Google'),
+            SignInButton(
+              Buttons.GoogleDark,
+              onPressed: () {
+                signManager.signInWithGoogle();
+                Navigator.of(context).pushReplacement(new MaterialPageRoute(builder: (BuildContext _context) => MessageListPage(auth: auth)));
+              },
             ),
             MaterialButton(
-              onPressed: () => authService.signOut(),
+              onPressed: () => signManager.signOut(),
               color: Colors.white,
               textColor: Colors.black,
               child: Text('Sign out'),

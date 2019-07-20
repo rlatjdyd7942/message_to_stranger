@@ -119,13 +119,3 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 }
-
-
-class SecondPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-
-    );
-  }
-}
