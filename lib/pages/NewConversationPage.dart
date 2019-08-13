@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import '../MessageManager.dart';
 
-class NewMessagePage extends StatelessWidget {
-  final MessageManager messageManager;
+class NewConversationPage extends StatelessWidget {
+  final MessageManager messageManager = MessageManager.instance;
   final TextEditingController textEditingController = TextEditingController();
 
-  NewMessagePage({this.messageManager});
+  NewConversationPage();
 
   @override
   Widget build(BuildContext context) {
@@ -29,33 +29,17 @@ class NewMessagePage extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
-          await messageManager.sendToRandom(textEditingController.text);
-          await showDialog(
-            context: context,
-            builder: (BuildContext context) {
-              return AlertDialog(
-                title: new Text ("Message sent Successfully!"),
-                actions: <Widget>[
-                  new FlatButton(
-                    child: new Text("OK"),
-                    onPressed: () {
-                      Navigator.pop(context);
-                    }
-                  )
-                ]
-              );
-            }
-          ).then((v) {
-            Navigator.pop(context);
-          });
+          if (textEditingController.text.trim() != '') {
+            await messageManager.newConversation(textEditingController.text.trim()).then(
+              (result) {
+                Navigator.pop(context);
+              }
+            );
+          }
         },
         tooltip: 'Send Message',
         child: Icon(Icons.send),
       ),
     );
-  }
-
-  void _sendMessage() {
-    messageManager.sendToRandom(textEditingController.text);
   }
 }

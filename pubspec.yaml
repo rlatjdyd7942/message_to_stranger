@@ -19,6 +19,7 @@ environment:
 dependencies:
   uuid: 2.0.1
   intl: 0.15.8
+  http:
 
   flutter:
     sdk: flutter

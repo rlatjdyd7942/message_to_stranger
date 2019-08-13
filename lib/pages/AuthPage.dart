@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_signin_button/flutter_signin_button.dart';
 import '../Auth.dart';
-import '../SignManager.dart';
-import 'MessageListPage.dart';
+import '../FirebaseSignManager.dart';
+import '../UserManager.dart';
+import 'ConversationListPage.dart';
 
 class AuthPage extends StatefulWidget {
 
@@ -13,32 +13,29 @@ class AuthPage extends StatefulWidget {
 
 class AuthPageState extends State<AuthPage> {
   Auth auth = Auth();
-  SignManager signManager;
+
+  @override
+  void initState() {
+    super.initState();
+    UserManager.instance.signIn().then(
+        (result) {
+          if (result) {
+            Navigator.of(context).pushReplacement(
+              MaterialPageRoute(
+                settings: RouteSettings(name: '/conversations'),
+                builder: (BuildContext _context) => ConversationListPage(auth: auth)
+              )
+            );
+          }
+        }
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
-    signManager = SignManager(auth);
-    signManager.init();
     return Scaffold(
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            SignInButton(
-              Buttons.GoogleDark,
-              onPressed: () {
-                signManager.signInWithGoogle();
-                Navigator.of(context).pushReplacement(new MaterialPageRoute(builder: (BuildContext _context) => MessageListPage(auth: auth)));
-              },
-            ),
-            MaterialButton(
-              onPressed: () => signManager.signOut(),
-              color: Colors.white,
-              textColor: Colors.black,
-              child: Text('Sign out'),
-            )
-          ]
-        )
+        child: Column(),
       )
     );
   }
